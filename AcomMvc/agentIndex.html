@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Agenti</title>
+	<meta charset="utf-8" />
+</head>
+<body ng-app="agent">
+    <h2>Agenti</h2>
+    <hr />
+    <div ng-controller="agentController">
+        <table>
+            <tr>
+                <td>Username</td>
+                <td>Nome</td>
+                <td>Note</td>
+                <td>Disattivato</td>
+                <td>Creato da</td>
+                <td>Creato il</td>
+                <td>Aggiornato da</td>
+                <td>Aggiornato il</td>
+            </tr>
+            <tr ng-repeat="agent in agents">
+                <td>{{agent.agentUser.UserName}}</td>
+                <td>{{agent.agentName}}</td>
+                <td>{{agent.note}}</td>
+                <td>{{agent.annull}}</td>
+                <td>{{agent.createdBy}}</td>
+                <td>{{agent.createdDate}}</td>
+                <td>{{agent.updatedBy}}</td>
+                <td>{{agent.updatedDate}}</td>
+                <!--<td hidden="hidden">{{agent.rowvers}}</td>-->
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
+<script src="Scripts/angularModules/agentModule.js"></script>
+<script src="Scripts/angular.min.js"></script>
+<script src="Scripts/angularModules/AcomJsClient.js"></script>

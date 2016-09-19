@@ -1,0 +1,248 @@
+﻿@model IEnumerable<AcomMvc.Core.Domain.client>
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "Clienti";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Clienti</h2>
+@Html.Partial("~/Views/Shared/_Message.cshtml")
+<p>
+    @{Html.BeginForm("Create", "client", FormMethod.Get);}
+    <input type="submit" id="clientCreate" name="clientCreate" value="Crea nuovo cliente" class="btn btn-default" />
+</p>
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 col-md-offset-4"></div>
+</div>
+        <table class="table table-striped" id="tableClients">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th nowrap>
+                        @Html.DisplayNameFor(model => model.clientCode)
+                    </th>
+                    <th nowrap>
+                        @Html.DisplayNameFor(model => model.clientRagioneSociale)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.agent.agentName)
+                    </th>
+                    <th nowrap>
+                        @Html.DisplayNameFor(model => model.canal.canalCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.city.cityName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.county.countySign)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.clientPhone)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.clientEmail)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.note)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.annull)
+                    </th>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <th nowrap>
+                            @Html.DisplayNameFor(model => model.createdBy)
+                        </th>
+                        <th nowrap>
+                            @Html.DisplayNameFor(model => model.createdDate)
+                        </th>
+                        <th nowrap>
+                            @Html.DisplayNameFor(model => model.updatedBy)
+                        </th>
+                        <th nowrap>
+                            @Html.DisplayNameFor(model => model.updatedDate)
+                        </th>
+                    }
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.payment.paymentDesc)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.shipment.shipmentDesc)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.clientPivaCee)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.clientCF)
+                        </th>
+                                <th>
+                            @Html.DisplayNameFor(model => model.invoiceMethod)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.bankName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ibanCode)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.fatturato)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.fatturatoPotenziale)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.fidoRichiesto)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.fidoConcesso)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.scadenzaFido)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.fondazione)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.possedimenti)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.dipendenti)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.rowvers)
+                        </th>
+                    *@
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td nowrap>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                @Html.HiddenFor(modelItem => item.rowvers)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.clientCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.clientRagioneSociale)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.agent.agentName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.canal.canalCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.city.cityName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.county.countySign)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.clientPhone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.clientEmail)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.note)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.annull)
+                            </td>
+                            @if (User.IsInRole("Admin"))
+                            {
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.createdBy)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.createdDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.updatedBy)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.updatedDate)
+                                </td>
+                            }
+
+                            @*<td>
+                                    @Html.DisplayFor(modelItem => item.payment.paymentDesc)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.shipment.shipmentDesc)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.clientCF)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.clientPivaCee)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.invoiceMethod)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.bankName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ibanCode)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.fatturato)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.fatturatoPotenziale)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.fidoRichiesto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.fidoConcesso)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.scadenzaFido)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.fondazione)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.possedimenti)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.dipendenti)
+                                </td>*@
+
+                        </tr>
+                    }
+
+                }
+            </tbody>
+        </table>
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 col-md-offset-4"></div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#tableClients').dataTable({
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 }
+                ]
+            });
+        });
+    </script>
+}

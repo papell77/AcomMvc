@@ -1,0 +1,194 @@
+﻿@model IEnumerable<AcomMvc.Core.Domain.agent>
+@using AcomMvc.Core.Html_helpers;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*@functions{
+    public string GetAntiForgeryToken()
+    {
+        string cookieToken, formToken;
+        AntiForgery.GetTokens(null, out cookieToken, out formToken);
+        return cookieToken + ":" + formToken;
+    }
+}*@
+<div ng-app="agent" ng-controller="agentController" >
+    <h2>Lista agenti</h2>
+    @Html.Partial("~/Views/Shared/_MessageJs.cshtml")
+    <hr />
+    <input type="button" name="newClient" id="newClient" value="Inserisci nuovo agente" class="btn btn-default" ng-click="showAgentForm()"/>
+    @*<form id="agentForm" class="form-horizontal" style="display:none">
+        <h4>Nuovo agente</h4>
+        <div class="form-group">
+            <label for="agentName" class="col-md-1 control-label">@Html.DisplayNameFor(model => model.agentName)</label>
+            <input type="text" class="col-md-6 form-control" id="agentName" value="" ng-model="agent.agentName" placeholder="nome agente" />
+        </div>
+        <div class="form-group">
+            <label for="agentUser" class="col-md-1 control-label">@Html.DisplayNameFor(model => model.agentUser.UserName)</label>
+            <select id="agentUser" ng-controller="userController" ng-options="user.Id as user.UserName for user in users" ng-model="agent.agentUserID" class="col-md-6 form-control">
+                <option value="">Seleziona...</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="note" class="col-md-1 control-label">@Html.DisplayNameFor(model => model.note)</label>
+            <textarea id="note" class="col-md-6 form-control" rows="2" ng-model="agent.note" placeholder="note agente"></textarea>
+        </div>
+        <div>
+            <input type="hidden" name="annull" value="0" ng-model="agent.annull" />
+            <input type="hidden" name="createdBy" value="" ng-model="agent.createdBy" />
+            <input type="hidden" name="createdDate" value="" ng-model="agent.createdDate" />
+            <input type="hidden" name="updatedBy" value="" ng-model="agent.updatedBy" />
+            <input type="hidden" name="updatedDate" value="" ng-model="agent.updatedDate" />
+            <input type="hidden" name="rowvers" value="" ng-model="agent.rowvers" />
+        </div>
+        <input type="button" name="save" value="Salva" class="col-md-offset-1 btn btn-default" ng-click="create(agent)" />
+        <input type="button" name="cancel" value="Annulla" class="btn btn-default" ng-click="annullCreate()" />
+    </form>*@
+    @*<form id="agentEditForm" class="form-horizontal" style="display:none" novalidate >
+        <h4>Modifica agente</h4>
+        <div class="form-group">
+            <label for="agentName" class="col-md-1 control-label">@Html.DisplayNameFor(model => model.agentName)</label>
+            <input type="text" class="col-md-6 form-control" id="agentName" value="" ng-model="agentToEdit.agentName" placeholder="nome agente" />
+        </div>
+        <div class="form-group">
+            <label for="agentUser" class="col-md-1 control-label">@Html.DisplayNameFor(model => model.agentUser.UserName)</label>
+            <select id="agentUser" ng-controller="userController" ng-options="user.Id as user.UserName for user in users" ng-model="agentToEdit.agentUserID" class="col-md-6 form-control">
+                <option value="">Seleziona...</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="note" class="col-md-1 control-label">@Html.DisplayNameFor(model => model.note)</label>
+            <textarea id="note" class="col-md-6 form-control" rows="2" ng-model="agentToEdit.note" placeholder="note agente"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="annullato" class="col-md-1 control-label">@Html.DisplayNameFor(model=> model.annull)</label>
+            <input type="checkbox" id="annullato" name="annullato" value="0" ng-model="agentToEdit.annull" />
+        </div>
+        <div>
+            <input type="hidden" id="Id" name="Id" value=" " ng-model="agentToEdit.ID" />
+            <input type="hidden" id="createdBy" name="createdBy" value="" ng-model="agentToEdit.createdBy" />
+            <input type="hidden" id="createdDate" name="createdDate" value="" ng-model="agentToEdit.createdDate" />
+            <input type="hidden" id="updatedBy" name="updatedBy" value="" ng-model="agentToEdit.updatedBy" />
+            <input type="hidden" id="updatedDate" name="updatedDate" value="" ng-model="agentToEdit.updatedDate" />
+            <input type="hidden" id="rowvers" name="rowvers" value="" ng-model="agentToEdit.rowvers" required />
+        </div>
+        <input type="button" name="save" value="Salva" class="col-md-offset-1 btn btn-default" ng-click="update(agentToEdit)" />
+        <input type="button" name="cancel" value="Annulla" class="btn btn-default" ng-click="annullEdit()" />
+    </form>*@
+    <hr />
+    <div class="form-inline form-group">
+        <label class="control-label" for="search">Cerca</label>
+        <input type="text" id="search" ng-model="search" value="" class="form-control" />
+    </div>
+    @Html.Partial("~/Views/Shared/_ValidationJs.cshtml")
+    <table class="table table-striped" >
+        <thead>
+            <tr>
+                <th></th>
+                @*<th></th>*@
+                <th ng-click="Sort(agentName)">
+                    @Html.DisplayNameFor(model => model.agentName)
+                </th>
+                <th ng-click="Sort(agentUser.UserName)">
+                    @Html.DisplayNameFor(model => model.agentUser.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.note)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.annull)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.createdBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.createdDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.updatedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.updatedDate)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="agentFormTb" style="display:none" >
+                <td nowrap>
+                    <input type="submit" name="save" value="Salva" class="btn btn-default" ng-click="create(agent)" />
+                    <input type="submit" name="cancel" value="Annulla" class="btn btn-default" ng-click="annullCreate()" />
+                </td>
+                <td>
+                    <input type="text" class="col-md-6 form-control" name="agentName" id="agentName" value="" ng-model="agent.agentName" placeholder="nome agente"/>
+                </td>
+                <td>
+                    <select id="agentUser" ng-controller="userController" ng-options="user.Id as user.UserName for user in users" ng-model="agent.agentUserID" class="col-md-6 form-control">
+                        <option value="">Seleziona...</option>
+                    </select>
+                </td>
+                <td>
+                    <textarea id="note" class="col-md-6 form-control" rows="1" ng-model="agent.note" placeholder="note agente"></textarea>
+                </td>
+                <td>
+                    <input type="hidden" name="annull" value="0" ng-model="agent.annull" />
+                    <input type="hidden" name="createdBy" value="" ng-model="agent.createdBy" />
+                    <input type="hidden" name="createdDate" value="" ng-model="agent.createdDate" />
+                    <input type="hidden" name="updatedBy" value="" ng-model="agent.updatedBy" />
+                    <input type="hidden" name="updatedDate" value="" ng-model="agent.updatedDate" />
+                    @*<input type="hidden" name="rowvers" value="" ng-model="agent.rowvers" />*@
+                </td>
+            </tr>
+            <tr id="agentEditFormTb" style="display:none" >
+                <td nowrap>
+                    <input type="button" name="save" value="Salva" class="col-md-offset-1 btn btn-default" ng-click="update(agentToEdit)" />
+                    <input type="button" name="cancel" value="Annulla" class="btn btn-default" ng-click="annullEdit()" />
+                </td>
+                <td>
+                    <input type="text" class="col-md-6 form-control" id="agentName" value="" ng-model="agentToEdit.agentName" placeholder="nome agente" />
+                </td>
+                <td>
+                    <select id="agentUser" ng-controller="userController" ng-options="user.Id as user.UserName for user in users" ng-model="agentToEdit.agentUserID" class="col-md-6 form-control">
+                        <option value="">Seleziona...</option>
+                    </select>
+                </td>
+                <td>
+                    <textarea id="note" class="col-md-6 form-control" rows="1" ng-model="agentToEdit.note" placeholder="note agente"></textarea>
+                </td>
+                <td>
+                    <input type="checkbox" name="annull" id="annull"  ng-model="agentToEdit.annull" />
+                </td>
+                <td>
+                    <input type="hidden" id="Id" name="Id" value=" " ng-model="agentToEdit.ID" />
+                    <input type="hidden" id="createdBy" name="createdBy" value="" ng-model="agentToEdit.createdBy" />
+                    <input type="hidden" id="createdDate" name="createdDate" value="" ng-model="agentToEdit.createdDate" />
+                    <input type="hidden" id="updatedBy" name="updatedBy" value="" ng-model="agentToEdit.updatedBy" />
+                    <input type="hidden" id="updatedDate" name="updatedDate" value="" ng-model="agentToEdit.updatedDate" />
+                    <input type="hidden" id="rowvers" name="rowvers" value="" ng-model="agentToEdit.rowvers"  />
+                </td>
+            </tr>
+            <tr dir-paginate="agent in agents |filter:search | orderBy:key:AscOrDesc | itemsPerPage:3" >
+                    <td><input type="submit" name="edit" id="edit" ng-click="showAgentEditForm(agent)" value="Modifica" class="btn btn-default" /></td>
+                    <td>{{agent.agentName}}</td>
+                    <td>{{agent.agentUser.UserName}}</td>
+                    <td>{{agent.note}}</td>
+                    <td><input type="checkbox" name="annull" ng-checked="{{agent.annull}}" /></td>
+                    <td>{{agent.createdBy}}</td>
+                    <td>{{agent.createdDate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{agent.updatedBy}}</td>
+                    <td>{{agent.updatedDate | date:'dd/MM/yyyy'}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <dir-pagination-controls max-size="3"
+                             direction-links="true"
+                             boundary-links="true">
+    </dir-pagination-controls>
+</div>
+
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/dirPagination.js"></script>
+<script src="~/Scripts/angularModules/agentModule.js"></script>
+<script src="~/Scripts/angularModules/populateDDL.js"></script>
+<script src="~/Scripts/loading-bar.min.js"></script>
+
+

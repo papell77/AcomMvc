@@ -1,0 +1,133 @@
+﻿@model IEnumerable<AcomMvc.Core.Domain.client>
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Ricerca clienti</h2>
+<hr />
+
+@using (Ajax.BeginForm("GetClients", "client", new AjaxOptions(){HttpMethod="Post", OnBegin="return validateSearch('form-control')", OnSuccess="success", UpdateTargetId="clientList", InsertionMode=InsertionMode.Replace}))
+{
+   @Html.AntiForgeryToken()
+    <div id="clientSearch">
+        @{Html.RenderPartial("clientSearch_partial");}
+    </div>
+}
+    <div class="col-md-11 form-group">
+        <p>
+            @Html.ActionLink("Crea nuovo cliente", "Create")
+        </p>
+    </div>
+
+    <div id="clientList">
+        @{Html.RenderPartial("GetClients");}
+    </div>
+
+    @*<table class="table table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.clientCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.clientRagioneSociale)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.agent.agentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.note)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.canal.canalCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.city.cityName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.county.countySign)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.clientPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.clientEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.annull)
+        </th>
+        @if (User.IsInRole("Admin"))
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.createdBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.createdDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.updatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.updatedDate)
+            </th>
+        }
+        <th></th>
+    </tr>
+
+    <tr ng-repeat="client in clients track by $index">
+        <td hidden="hidden">{{client.ID}}</td>
+        <td>{{client.clientCode}}</td>
+        <td>{{client.clientRagioneSociale}}</td>
+        <td>{{client.agent.agentName}}</td>
+        <td>{{client.note}}</td>
+        <td>{{client.canal.canalCode}}</td>
+        <td>{{client.city.cityName}}</td>
+        <td>{{client.county.countySign}}</td>
+        <td>{{client.clientPhone}}</td>
+        <td>{{client.clientEmail}}</td>
+        <td>{{client.annull}}</td>
+        @if (User.IsInRole("Admin"))
+        {
+            <td>{{client.createdBy}}</td>
+            <td>{{client.createdDate}}</td>
+            <td>{{client.updatedBy}}</td>
+            <td>{{client.updatedDate}}</td>
+        }
+        @*<td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            </td>*@
+        @*</tr>
+    </table>*@
+
+<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/angularModules/populateDDL.js"></script>
+<script src="~/Scripts/MyScripts/validateSearch.js"></script>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#tableClients').dataTable();
+        });
+
+        function success(data) {
+            $('#clientList').html(data);
+            $('#tableClients').DataTable({                
+            });
+
+        }
+
+        function failure(xhr, status) {
+            alert('Errore: ' + xhr.statusText);
+
+        }
+        //$(document).ready(function () {
+        //    $('#search').click(function () {
+        //        $('#tableClients').DataTable();
+        //    });
+        //});
+    </script>
+}

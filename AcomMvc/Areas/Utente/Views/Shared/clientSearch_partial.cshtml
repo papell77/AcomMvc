@@ -1,0 +1,54 @@
+﻿
+<div ng-app="popDDL" >
+    <div>
+        <div class="col-md-11 form-group">
+            <div class="col-md-3"><h4>Codice cliente</h4></div>
+            <div class="col-md-3"><input type="text" ng-model="code" id="codice" name="codice" value=" " class="form-control" /></div>
+            <div class="col-md-3"><h4>Ragione Sociale</h4></div>
+            <div class="col-md-3"><input type="text" ng-model="rag" id="ragSociale" name="ragSociale" value=" " class="form-control" /></div>
+        </div>
+        <div class="col-md-11 form-group" ng-controller="countyController">
+            <div ng-controller="cityController">
+                <div class=" col-md-3"><h4>Provincia</h4></div>
+                <div class="col-md-3">
+                    <select id="county" name="county" ng-model="cnt" ng-change="GetCitiesByCountyId(cnt)" ng-options="prov.ID as prov.countyName for prov in counties" class="form-control">
+                        <option value=""></option>
+                    </select>
+                    <input type="hidden" id="countyId" name="countyId" value="{{cnt}}" />
+                </div>
+                <div class="col-md-3"><h4>Comune</h4></div>
+                <div class="col-md-3">
+                    <select id="city" name="city" ng-model="cty" ng-options="city.ID as city.cityName for city in cities" class="form-control">
+                        <option value=""></option>
+                    </select>
+                    <input type="hidden" id="cityId" name="cityId" value="{{cty}}" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-11 form-group">
+            <div class="col-md-3"><h4>Agente</h4></div>
+            <div class="col-md-3" ng-controller="agentController" >
+                <select id="agent" name="agent" ng-model="ag" ng-options="agent.ID as agent.agentName disable when agent.annull=='true' for agent in agents" class="form-control">
+                    <option value=""></option>
+                </select>
+                <input type="hidden" id="agentId" name="agentId" value="{{ag}}" />
+            </div>
+            <div class="col-md-3"><h4>Canale</h4></div>
+            <div class="col-md-3" ng-controller="canalController" >
+                <select id="canal" name="canal" ng-model="cn" ng-options="canal.ID as canal.canalCode for canal in canals" class="form-control">
+                    <option value=""></option>
+                </select>
+                <input type="hidden" id="canalId" name="canalId" value="{{cn}}" />
+            </div>
+        </div>
+        <div class="col-md-11 form-group">
+            <div class="col-md-3"><h4>P.Iva</h4></div>
+            <div class="col-md-3"><input id="piva" type="text" ng-model="piva" name="piva" value=" " class="form-control" /></div>
+            <div class="col-md-3"><h4>Telefono</h4></div>
+            <div class="col-md-3"><input id="phone" type="text" ng-model="phn" name="phone" value=" " class="form-control" /></div>
+        </div>
+        <div class="col-md-11 form-group">
+            <input type="submit" id="search" name="search" value="Cerca" class="btn btn-default" />
+        </div>
+    </div>
+</div>
